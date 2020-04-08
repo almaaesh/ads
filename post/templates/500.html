@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% load i18n staticfiles %}
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <h1 style="color: red;" align="center">500</h1>
+                <h1 align="center">{% trans 'Server error!' %}</h1>
+            </div>
+        </div>
+    </div>
+{% endblock %}

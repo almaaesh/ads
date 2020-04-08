@@ -1,0 +1,254 @@
+{% extends "base.html" %}
+{% load i18n staticfiles %}
+
+{% block content %}
+
+    {% for category in categories %}
+        <a href="{% url 'post:product-by-category' category.slug %}">{{ category.category_name }}</a> (
+        {{ category.product_count }})
+    {% endfor %}
+    <!-- Main Content Area -->
+    <div class="main-content-area clearfix">
+        <!-- =-=-=-=-=-=-= Trending Ads =-=-=-=-=-=-= -->
+        <section class="custom-padding gray">
+            <!-- Main Container -->
+            <div class="container">
+                <!-- Row -->
+                <div class="row">
+                    <!-- Heading Area -->
+                    <div class="heading-panel">
+                        <div class="col-xs-12 col-md-12 col-sm-12 text-center">
+                            <!-- Main Title -->
+                            <h1>Latest <span class="heading-color"> Trending</span> Ads</h1>
+                            <!-- Short Description -->
+                            <p class="heading-text">Eu delicata rationibus usu. Vix te putant utroque, ludus fabellas
+                                duo eu, his dico ut debet consectetuer.</p>
+                        </div>
+                    </div>
+                    <!-- Middle Content Box -->
+                    <div class="col-md-12 col-xs-12 col-sm-12">
+                        <ul class="list-unstyled">
+                            <!-- Listing Grid -->{{ list_ads.count }}
+                            {% for ad in list_ads %}
+                                <li>
+                                    <div class="well ad-listing clearfix">
+                                        <div class="col-md-3 col-sm-5 col-xs-12 grid-style no-padding">
+                                            <!-- Image Box -->
+                                            <div class="img-box">
+                                                {% if ad.feature_image %}
+                                                    <img style="height: 200px; width: 300px;"
+                                                         src="{{ ad.feature_image.url }}"
+                                                         class="img-responsive" alt="">
+                                                {% else %}
+                                                    <img src="{% static 'images/posting/list-2.jpg' %}"
+                                                         class="img-responsive" alt="">
+                                                {% endif %}
+                                                <div class="total-images"><strong>4</strong> photos</div>
+                                                <div class="quick-view">
+                                                    <a href="#ad-preview" data-toggle="modal" class="view-button"><i
+                                                            class="fa fa-search"></i></a>
+                                                </div>
+                                            </div>
+                                            <!-- Ad Status --><span class="ad-status"> Featured </span>
+                                            <!-- User Preview -->
+                                            <div class="user-preview">
+                                                <a href="#">
+                                                    <img src="{% static 'images/users/6.jpg' %}"
+                                                         class="avatar avatar-small" alt="">
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-9 col-sm-7 col-xs-12">
+                                            <!-- Ad Content-->
+                                            <div class="row">
+                                                <div class="content-area">
+                                                    <div class="col-md-9 col-sm-12 col-xs-12">
+                                                        <!-- Category Title -->
+                                                        <div class="category-title">
+                                                            <span><a href="#">{{ ad.category.category_name }}</a></span>
+                                                        </div>
+                                                        <!-- Ad Title -->
+                                                        <h3><a href="{{ ad.get_absolute_url }}">{{ ad.title }}</a>
+                                                        </h3>
+                                                        <!-- Info Icons -->
+                                                        <ul class="additional-info">
+                                                            <li>
+                                                                <a data-toggle="tooltip" title="Send Message" href="#"
+                                                                   class="fa fa-envelope"></a>
+                                                            </li>
+                                                            <li>
+                                                                <a data-toggle="tooltip" title="+92-4567-123" href="#"
+                                                                   class="fa fa-phone"></a>
+                                                            </li>
+                                                            <li>
+                                                                <a data-toggle="tooltip" title="Bookmark" href="#"
+                                                                   class="fa fa-heart"></a>
+                                                            </li>
+                                                        </ul>
+                                                        <!-- Ad Meta Info -->
+                                                        <ul class="ad-meta-info">
+                                                            <li>
+                                                                <i class="fa fa-map-marker"></i><a
+                                                                    href="#">{{ ad.city }}</a>
+                                                            </li>
+                                                            <li>
+                                                                <i class="fa fa-clock-o"></i>{{ ad.updated_on|timesince }}
+                                                        </ul>
+                                                        <!-- Ad Description-->
+                                                        <div class="ad-details">
+                                                            <p>{{ ad.body|truncatewords:25 }}</p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-3 col-xs-12 col-sm-12">
+                                                        <!-- Ad Stats -->
+                                                        <div class="short-info">
+                                                            <div class="ad-stats hidden-xs"><span>Condition  : </span>Used
+                                                            </div>
+                                                            <div class="ad-stats hidden-xs">
+                                                                <span>Warranty : </span>7 Days
+                                                            </div>
+                                                            <div class="ad-stats hidden-xs"><span>Sub Category : </span>Mobiles
+                                                            </div>
+                                                        </div>
+                                                        <!-- Price -->
+                                                        <div class="price"><span>${{ ad.price }}</span></div>
+                                                        <!-- Ad View Button -->
+                                                        <button class="btn btn-block btn-success">
+                                                            <i class="fa fa-eye" aria-hidden="true"></i> View Ad.
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- Ad Content End -->
+                                        </div>
+                                    </div>
+                                </li>
+                            {% empty %}
+                                <p>no items</p>
+                            {% endfor %}
+                        </ul>
+                        {% include 'snippets/pagination.html' %}
+                    </div>
+                    <!-- Middle Content Box End -->
+                </div>
+                <!-- Row End -->
+            </div>
+            <!-- Main Container End -->
+        </section>
+        <!-- =-=-=-=-=-=-= Trending Ads End =-=-=-=-=-=-= -->
+    </div>
+    <!-- Main Content Area End -->
+
+    <div class="quick-view-modal modalopen" id="ad-preview" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-lg ad-modal">
+            <button class="close close-btn popup-cls" aria-label="Close" data-dismiss="modal" type="button">
+                <i class="fa-times fa"></i></button>
+            <div class="modal-content single-product">
+                <div class="diblock">
+                    <div class="col-lg-7 col-sm-12 col-xs-12">
+                        <div class="clearfix"></div>
+                        <div class="flexslider single-page-slider">
+                            <div class="flex-viewport">
+                                <ul class="slides slide-main">
+                                    <li class=""><img alt="" src="{% static 'images/single-page/1.jpg' %}" title="">
+                                    </li>
+                                    <li><img alt="" src="{% static 'images/single-page/2.jpg' %}" title=""></li>
+                                    <li class="flex-active-slide">
+                                        <img alt="" src="{% static 'images/single-page/3.jpg' %}" title=""></li>
+                                    <li><img alt="" src="{% static 'images/single-page/4.jpg' %}" title=""></li>
+                                    <li><img alt="" src="{% static 'images/single-page/5.jpg' %}" title=""></li>
+                                    <li><img alt="" src="{% static 'images/single-page/6.jpg' %}" title=""></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="flexslider" id="carousels">
+                            <div class="flex-viewport">
+                                <ul class="slides slide-thumbnail">
+                                    <li>
+                                        <img alt="" draggable="false"
+                                             src="{% static 'images/single-page/1_thumb.jpg' %}">
+                                    </li>
+                                    <li>
+                                        <img alt="" draggable="false"
+                                             src="{% static 'images/single-page/2_thumb.jpg' %}">
+                                    </li>
+                                    <li class="flex-active-slide">
+                                        <img alt="" draggable="false"
+                                             src="{% static 'images/single-page/3_thumb.jpg' %}">
+                                    </li>
+                                    <li>
+                                        <img alt="" draggable="false"
+                                             src="{% static 'images/single-page/4_thumb.jpg' %}">
+                                    </li>
+                                    <li>
+                                        <img alt="" draggable="false"
+                                             src="{% static 'images/single-page/4_thumb.jpg' %}">
+                                    </li>
+                                    <li>
+                                        <img alt="" draggable="false"
+                                             src="{% static 'images/single-page/4_thumb.jpg' %}">
+                                    </li>
+                                    <!-- items mirrored twice, total of 12 -->
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class=" col-sm-12 col-lg-5 col-xs-12">
+                        <div class="summary entry-summary">
+                            <div class="ad-preview-details">
+                                <a href="#">
+                                    <h4>Honda Civic Sports Edition 2017</h4>
+                                </a>
+                                <div class="overview-price">
+                                    <span>$36.000</span>
+                                </div>
+                                <div class="clearfix"></div>
+                                <p>Tattooed fashion axe Blue Bottle butcher tilde. Pitchfork leggings meh Odd
+                                    Future.Drinking vinegar. </p>
+                                <ul class="car-info col-md-6 col-sm-6">
+                                    <li>
+                                        <span>Fabrication:</span>
+                                        <p>2013/2014</p>
+                                    </li>
+                                    <li>
+                                        <span>Speed:</span>
+                                        <p>160p/h</p>
+                                    </li>
+                                    <li>
+                                        <span>Mileage:</span>
+                                        <p>30.000km - 40.000km</p>
+                                    </li>
+                                    <li>
+                                        <span>Fuel:</span>
+                                        <p>Petrol</p>
+                                    </li>
+                                </ul>
+                                <ul class="ad-preview-info col-md-6 col-sm-6">
+                                    <li>
+                                        <span>Color:</span>
+                                        <p>Black</p>
+                                    </li>
+                                    <li>
+                                        <span>Transmition:</span>
+                                        <p>Automatic</p>
+                                    </li>
+                                    <li>
+                                        <span>Dors:</span>
+                                        <p>4/5</p>
+                                    </li>
+                                    <li>
+                                        <span>Engine:</span>
+                                        <p>2500cm3</p>
+                                    </li>
+                                </ul>
+                                <button class="btn btn-theme btn-block" type="submit">Contact Dealer</button>
+                            </div>
+                        </div>
+                        <!-- .summary -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- / Product Preview Popup -->
+{% endblock %}

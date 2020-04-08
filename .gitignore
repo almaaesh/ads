@@ -1,6 +1,7 @@
 syntax: glob
 
 *.pyc
-ads/db.sqlite3
-ads/ads/settings/local.py
+db.sqlite3
+ads/settings/local.py
 ads-venv/
+.idea/
